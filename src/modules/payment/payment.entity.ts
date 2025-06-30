@@ -10,8 +10,8 @@ import { Account } from './../account/account.entity';
 
 @Entity('payments')
 export class Payment {
-  @PrimaryGeneratedColumn({ name: 'payment_id' })
-  paymentId: number;
+  @PrimaryGeneratedColumn({ name: 'id' })
+  id: number;
 
   @Column({ name: 'amount', type: 'decimal', precision: 10, scale: 2 })
   amount: number;
@@ -26,6 +26,9 @@ export class Payment {
 
   @CreateDateColumn({ name: 'payment_date', type: 'timestamp' })
   paymentDate: Date;
+
+  @Column({ name: 'account_id' })
+  accountId: number;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   @ManyToOne(() => Account, (account) => account.payments, {
