@@ -7,6 +7,8 @@ import {
 } from 'typeorm';
 import { Payment } from './../payment/payment.entity';
 
+// This code defines the Account entity for a TypeORM application.
+// The Account entity represents a user's account in the system.
 @Entity('accounts')
 export class Account {
   @PrimaryGeneratedColumn({ name: 'id' })

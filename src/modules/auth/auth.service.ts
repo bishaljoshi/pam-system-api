@@ -20,6 +20,12 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  /**
+   * Validates a user by checking their username and password.
+   * @param username - The username of the user.
+   * @param pass - The password of the user.
+   * @returns A partial user object without the password if validation is successful, otherwise null.
+   */
   async validateUser(
     username: string,
     pass: string,
@@ -38,6 +44,11 @@ export class AuthService {
     return null;
   }
 
+  /**
+   * Generates a JWT token for the user.
+   * @param user - The user object containing id and username.
+   * @returns An object containing the generated access token.
+   */
   login(user: Partial<User>) {
     if (!user || !user.id || !user.username) {
       throw new Error('Invalid user data');
@@ -56,6 +67,11 @@ export class AuthService {
     return { accessToken };
   }
 
+  /**
+   * Signs up a new user by creating a new user record in the database.
+   * @param input - The sign-up data containing username and password.
+   * @returns The created user object.
+   */
   async signup(input: SignUpUserDto): Promise<User> {
     const { username, password } = input;
 

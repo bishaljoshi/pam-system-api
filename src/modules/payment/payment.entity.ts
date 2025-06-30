@@ -8,6 +8,8 @@ import {
 } from 'typeorm';
 import { Account } from './../account/account.entity';
 
+// This entity represents a payment in the system
+// It includes fields for the payment amount, method, date, and associated account
 @Entity('payments')
 export class Payment {
   @PrimaryGeneratedColumn({ name: 'id' })

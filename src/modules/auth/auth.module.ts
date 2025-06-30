@@ -7,6 +7,11 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 
+/**
+ * This module handles user authentication using JWT
+ * It provides endpoints for signing in and signing up users
+ * It uses Passport for authentication and JWT for token generation
+ */
 @Module({
   controllers: [AuthController],
   imports: [
