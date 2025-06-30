@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber, Length } from 'class-validator';
 
 export class CreateAccountDto {
   @IsNotEmpty()
@@ -8,4 +7,8 @@ export class CreateAccountDto {
 
   @IsEmail()
   email: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  balance: number;
 }

@@ -18,6 +18,9 @@ export class Account {
   @Column({ type: 'varchar', length: 100, unique: true })
   email: string;
 
+  @Column({ name: 'balance' })
+  balance: number;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: Date;
 

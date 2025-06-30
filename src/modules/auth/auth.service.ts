@@ -69,8 +69,7 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User();
     user.username = username;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    user.password = hashedPassword;
+    user.password = String(hashedPassword);
 
     try {
       await this.entityManager.save(User, user);

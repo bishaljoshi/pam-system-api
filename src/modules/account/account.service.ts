@@ -13,11 +13,12 @@ export class AccountService {
   constructor(private readonly entityManager: EntityManager) {}
 
   async create(input: CreateAccountDto): Promise<Account> {
-    const { accountName, email } = input;
+    const { accountName, email, balance } = input;
 
     const account = new Account();
     account.accountName = accountName;
     account.email = email;
+    account.balance = balance;
 
     try {
       await this.entityManager.save(Account, account);
@@ -30,6 +31,7 @@ export class AccountService {
 
   async findAll(page = 1, limit = 10): Promise<any> {
     const [data, total] = await this.entityManager.findAndCount(Account, {
+      relations: ['payments'],
       skip: (page - 1) * limit,
       take: limit,
       order: { id: 'ASC' },
@@ -45,6 +47,7 @@ export class AccountService {
 
   async findOne(id: number): Promise<Account | null> {
     return await this.entityManager.findOne(Account, {
+      relations: ['payments'],
       where: {
         id,
       },
@@ -52,7 +55,7 @@ export class AccountService {
   }
 
   async update(id: number, input: UpdateAccountDto): Promise<Account> {
-    const { accountName } = input;
+    const { accountName, balance } = input;
     const account = await this.entityManager.findOne(Account, {
       where: {
         id,
@@ -64,9 +67,12 @@ export class AccountService {
       throw new NotFoundException(`Account #${id} not found`);
     }
 
-    if (accountName) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    if (typeof accountName === 'string' && accountName.trim() !== '') {
       account.accountName = accountName;
+    }
+
+    if (typeof balance === 'number' && !isNaN(balance)) {
+      account.balance = balance;
     }
 
     try {
