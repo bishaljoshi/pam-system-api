@@ -8,11 +8,13 @@ import {
   ParseIntPipe,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { PaginationQueryDto } from 'src/config/pagination.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('payments')
@@ -25,8 +27,9 @@ export class PaymentController {
   }
 
   @Get()
-  findAll() {
-    return this.paymentService.findAll();
+  findAll(@Query() query: PaginationQueryDto) {
+    const { page, limit } = query;
+    return this.paymentService.findAll(page, limit);
   }
 
   @Get(':id')

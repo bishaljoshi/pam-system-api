@@ -7,11 +7,13 @@ import {
   Put,
   ParseIntPipe,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { PaginationQueryDto } from 'src/config/pagination.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('accounts')
@@ -24,8 +26,9 @@ export class AccountController {
   }
 
   @Get()
-  findAll() {
-    return this.accountService.findAll();
+  findAll(@Query() query: PaginationQueryDto) {
+    const { page, limit } = query;
+    return this.accountService.findAll(page, limit);
   }
 
   @Get(':id')

@@ -28,8 +28,19 @@ export class AccountService {
     }
   }
 
-  findAll(): Promise<Account[]> {
-    return this.entityManager.find(Account);
+  async findAll(page = 1, limit = 10): Promise<any> {
+    const [data, total] = await this.entityManager.findAndCount(Account, {
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { id: 'ASC' },
+    });
+
+    return {
+      data,
+      total,
+      page,
+      lastPage: Math.ceil(total / limit),
+    };
   }
 
   async findOne(id: number): Promise<Account | null> {
@@ -54,6 +65,7 @@ export class AccountService {
     }
 
     if (accountName) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       account.accountName = accountName;
     }
 

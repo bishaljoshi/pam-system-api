@@ -32,8 +32,19 @@ export class PaymentService {
     }
   }
 
-  findAll(): Promise<Payment[]> {
-    return this.entityManager.find(Payment);
+  async findAll(page = 1, limit = 10): Promise<any> {
+    const [data, total] = await this.entityManager.findAndCount(Payment, {
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { id: 'ASC' },
+    });
+
+    return {
+      data,
+      total,
+      page,
+      lastPage: Math.ceil(total / limit),
+    };
   }
 
   async findOne(id: number): Promise<Payment | null> {
