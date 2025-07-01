@@ -8,7 +8,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
-    origin: 'http://localhost:3000', // allow your Next.js frontend
+    origin: 'http://localhost:3002', // allow your Next.js frontend
     credentials: true,
   });
 
