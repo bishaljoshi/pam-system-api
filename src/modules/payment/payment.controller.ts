@@ -40,8 +40,8 @@ export class PaymentController {
   // The page and limit parameters are extracted from the query object
   @Get()
   findAll(@Query() query: PaginationQueryDto) {
-    const { page, limit } = query;
-    return this.paymentService.findAll(page, limit);
+    const { page, limit, search } = query;
+    return this.paymentService.findAll(page, limit, search);
   }
 
   // This method retrieves a specific payment by its ID
