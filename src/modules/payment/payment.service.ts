@@ -3,7 +3,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { EntityManager } from 'typeorm';
+import { EntityManager, Like } from 'typeorm';
 import { Payment } from './payment.entity';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
@@ -41,11 +41,15 @@ export class PaymentService {
   // This method retrieves all payments with pagination support
   // It accepts page and limit parameters to control the pagination
   // It returns an object containing the data, total count, current page, and last page
-  async findAll(page = 1, limit = 10): Promise<any> {
+  async findAll(page = 1, limit = 10, search = ''): Promise<any> {
     const [data, total] = await this.entityManager.findAndCount(Payment, {
+      relations: ['account'],
       skip: (page - 1) * limit,
       take: limit,
       order: { id: 'ASC' },
+      where: search
+        ? [{ account: { accountName: Like(`%${search}%`) } }]
+        : undefined,
     });
 
     return {
